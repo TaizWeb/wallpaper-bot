@@ -14,8 +14,6 @@ end
 -- getRandomReplyImage: Provided an OP, it'll get the attachment number of a random reply in a thread
 function getRandomReplyImage(threadNumber)
 	local curlData = json.decode(curl("GET", "", "", "https://a.4cdn.org/" .. targetBoard .. "/thread/" .. threadNumber .. ".json"))
-	print(curlData["posts"])
-
 	local postNumber = math.random(1, #curlData["posts"])
 	return {tonumber(curlData["posts"][postNumber]["tim"]), curlData["posts"][postNumber]["ext"]}
 end
