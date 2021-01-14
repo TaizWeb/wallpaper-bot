@@ -44,7 +44,7 @@ function postWallpaper()
 	end
 
 	downloadImage(wallpaperData[1], wallpaperData[2]) -- Downloading the post's attachment
-	--Fedi.postStatus("#nsfw", {wallpaperData[1] .. wallpaperData[2]}) -- Posting it
+	Fedi.postStatus("#nsfw", {wallpaperData[1] .. wallpaperData[2]}) -- Posting it
 	os.remove(wallpaperData[1] .. wallpaperData[2]) -- Deleting it after
 end
 
