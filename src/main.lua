@@ -15,7 +15,7 @@ end
 function getRandomReplyImage(threadNumber)
 	local curlData = json.decode(curl("GET", "", "", "https://a.4cdn.org/" .. targetBoard .. "/thread/" .. threadNumber .. ".json"))
 	local postNumber = math.random(1, #curlData["posts"])
-	return {tonumber(curlData["posts"][postNumber]["tim"]), curlData["posts"][postNumber]["ext"]}
+	return {tonumber(curlData["posts"][postNumber]["tim"]), curlData["posts"][postNumber]["ext"], curlData["posts"][postNumber]["w"], curlData["posts"][postNumber]["h"]}
 end
 
 -- downloadImage: Provided a valid image number and extension, the file will be downloaded to the disk
@@ -42,14 +42,16 @@ function postWallpaper()
 	end
 
 	downloadImage(wallpaperData[1], wallpaperData[2]) -- Downloading the post's attachment
-	Fedi.postStatus("#nsfw", {wallpaperData[1] .. wallpaperData[2]}) -- Posting it
+	Fedi.postStatus("Wallpaper from /" .. targetBoard .. "/ (" .. wallpaperData[3] .. "x" .. wallpaperData[4] .. ") #nsfw", {wallpaperData[1] .. wallpaperData[2]}) -- Posting it
 	os.remove(wallpaperData[1] .. wallpaperData[2]) -- Deleting it after
 end
 
 math.randomseed(os.time()) -- Seeding random
+print("Bot is running!")
 -- Main loop
 while (true) do
 	postWallpaper() -- Post the wallpaper
+	print("[" .. os.date() .. "] Image posted!")
 	os.execute("sleep " .. 3600) -- Sleep for an hour
 end
 
